@@ -5,6 +5,8 @@ import {
   UPDATE_TODO_DOC,
   UPDATE_TODO_DOC_STATUS,
   REMOVE_TODO_DOC,
+  SET_TODO_DOC,
+  SET_OPEN_FORM_DIALOG,
 } from "../../constants/action-types";
 
 // helpers
@@ -12,6 +14,8 @@ import updateObject from "../../helpers/update-object";
 
 const initialState = {
   docs: [],
+  doc: [],
+  openFormDialog: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -49,6 +53,10 @@ const reducer = (state = initialState, action) => {
       updatedDocs = state.docs.filter((doc) => doc.id !== action.id);
 
       return updateObject(state, { docs: updatedDocs });
+    case SET_TODO_DOC:
+      return updateObject(state, { doc: action.todoDoc });
+    case SET_OPEN_FORM_DIALOG:
+      return updateObject(state, { openFormDialog: action.openFormDialog });
     default:
       return state;
   }

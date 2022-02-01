@@ -7,6 +7,8 @@ import {
   UPDATE_TODO_DOC,
   UPDATE_TODO_DOC_STATUS,
   REMOVE_TODO_DOC,
+  SET_TODO_DOC,
+  SET_OPEN_FORM_DIALOG,
 } from "../../constants/action-types";
 
 const setTodoDocs = (todoDocs) => ({
@@ -33,6 +35,16 @@ export const updateTodoDocStatus = (id, status) => ({
 export const removeTodoDoc = (id) => ({
   type: REMOVE_TODO_DOC,
   id,
+});
+
+export const setTodoDoc = (todoDoc) => ({
+  type: SET_TODO_DOC,
+  todoDoc,
+});
+
+export const setOpenFormDialog = (openFormDialog) => ({
+  type: SET_OPEN_FORM_DIALOG,
+  openFormDialog,
 });
 
 export const loadTodoDocs = () => async (dispatch) => {
