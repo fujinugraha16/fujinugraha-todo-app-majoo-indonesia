@@ -13,14 +13,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 ReactDOM.render(
-  <Provider
-    store={store}
-    children={
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    }
-  />,
+  <Provider store={store} children={<App />} />,
   document.getElementById("root")
 );
 
