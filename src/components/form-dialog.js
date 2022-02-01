@@ -1,5 +1,5 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
@@ -17,7 +17,12 @@ import {
 } from "reactstrap";
 
 // actions
-import { addTodoDoc } from "../store/action/todo";
+import {
+  addTodoDoc,
+  setOpenFormDialog,
+  setTodoDoc,
+  updateTodoDoc,
+} from "../store/action/todo";
 
 // helpers
 import generateRandomString from "../helpers/generate-random-string";
@@ -28,7 +33,7 @@ const validationSchema = yup.object({
   description: yup.string().required("*Must be filled"),
 });
 
-const FormDialog = ({ title, open, setOpen }) => {
+const FormDialog = ({ title, open, formData }) => {
   const dispatch = useDispatch();
 
   const formik = useFormik({
@@ -40,15 +45,29 @@ const FormDialog = ({ title, open, setOpen }) => {
     onSubmit: (values) => {
       //   console.log(values);
 
-      const data = {
-        id: generateRandomString(5),
-        title: values.title,
-        description: values.description,
-        status: 0,
-        createdAt: generateCreatedAt(),
-      };
+      // ADD TODO
+      if (!formData) {
+        const data = {
+          id: generateRandomString(5),
+          title: values.title,
+          description: values.description,
+          status: 0,
+          createdAt: generateCreatedAt(),
+        };
 
-      dispatch(addTodoDoc(data));
+        dispatch(addTodoDoc(data));
+      }
+
+      // EDIT TODO
+      if (formData) {
+        const data = {
+          id: formData.id,
+          title: values.title,
+          description: values.description,
+        };
+
+        dispatch(updateTodoDoc(data));
+      }
 
       handleCloseButton();
     },
@@ -57,8 +76,16 @@ const FormDialog = ({ title, open, setOpen }) => {
   const handleCloseButton = () => {
     formik.setErrors({});
     formik.handleReset();
-    setOpen(!open);
+    dispatch(setOpenFormDialog(!open));
+    dispatch(setTodoDoc(null));
   };
+
+  useEffect(() => {
+    if (formData) {
+      formik.setFieldValue("title", formData.title);
+      formik.setFieldValue("description", formData.description);
+    }
+  }, [formData]);
 
   return (
     <Modal backdrop={true} toggle={handleCloseButton} isOpen={open}>

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 // componets
@@ -22,7 +22,7 @@ const TodoColumn = ({ title }) => {
 
   const todoLists = updateTodoLists(isDone, docs);
 
-  const [openFormDialog, setOpenFormDialog] = useState(false);
+  const { openFormDialog, doc: todoDoc } = useSelector(({ todo }) => todo);
 
   return (
     <Fragment>
@@ -32,7 +32,7 @@ const TodoColumn = ({ title }) => {
             {title} <TitleIcon isDone={isDone} />
           </h4>
 
-          {!isDone && <AddTodoButton setOpen={setOpenFormDialog} />}
+          {!isDone && <AddTodoButton />}
         </div>
 
         {todoLists.map((todoList, index) => (
@@ -41,9 +41,9 @@ const TodoColumn = ({ title }) => {
       </div>
 
       <FormDialog
-        title="Add Todo"
+        title={todoDoc ? "Update Todo" : "Add Todo"}
         open={openFormDialog}
-        setOpen={setOpenFormDialog}
+        formData={todoDoc}
       />
     </Fragment>
   );

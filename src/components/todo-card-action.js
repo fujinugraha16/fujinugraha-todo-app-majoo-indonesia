@@ -2,7 +2,12 @@ import React from "react";
 import { useDispatch } from "react-redux";
 
 // actions
-import { updateTodoDocStatus, removeTodoDoc } from "../store/action/todo";
+import {
+  updateTodoDocStatus,
+  removeTodoDoc,
+  setTodoDoc,
+  setOpenFormDialog,
+} from "../store/action/todo";
 
 const TodoCardAction = ({ data }) => {
   const { id, status } = data;
@@ -46,6 +51,10 @@ const TodoCardAction = ({ data }) => {
         data-bs-toggle="tooltip"
         data-bs-placement="bottom"
         title="edit"
+        onClick={() => {
+          dispatch(setTodoDoc(data));
+          dispatch(setOpenFormDialog(true));
+        }}
       ></i>
 
       {/* remove button */}
