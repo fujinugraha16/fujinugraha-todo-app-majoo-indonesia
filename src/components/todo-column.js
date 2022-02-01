@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment, useState } from "react";
 import { useSelector } from "react-redux";
 
 // componets
@@ -7,6 +7,7 @@ import AddTodoButton from "./add-todo-button";
 
 // helpers
 import updateTodoLists from "../helpers/update-todo-lists";
+import FormDialog from "./form-dialog";
 
 const TitleIcon = ({ isDone }) =>
   isDone ? (
@@ -21,20 +22,30 @@ const TodoColumn = ({ title }) => {
 
   const todoLists = updateTodoLists(isDone, docs);
 
-  return (
-    <div className="mb-5">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h4 className="text-md-start">
-          {title} <TitleIcon isDone={isDone} />
-        </h4>
+  const [openFormDialog, setOpenFormDialog] = useState(false);
 
-        {!isDone && <AddTodoButton />}
+  return (
+    <Fragment>
+      <div className="mb-5">
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h4 className="text-md-start">
+            {title} <TitleIcon isDone={isDone} />
+          </h4>
+
+          {!isDone && <AddTodoButton setOpen={setOpenFormDialog} />}
+        </div>
+
+        {todoLists.map((todoList, index) => (
+          <TodoCard data={todoList} key={index} />
+        ))}
       </div>
 
-      {todoLists.map((todoList, index) => (
-        <TodoCard data={todoList} key={index} />
-      ))}
-    </div>
+      <FormDialog
+        title="Add Todo"
+        open={openFormDialog}
+        setOpen={setOpenFormDialog}
+      />
+    </Fragment>
   );
 };
 
