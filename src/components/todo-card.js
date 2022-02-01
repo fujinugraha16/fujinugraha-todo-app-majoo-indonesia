@@ -3,7 +3,9 @@ import React from "react";
 // components
 import TodoCardAction from "./todo-card-action";
 
-const TodoCard = ({ data: { title, description, status } }) => {
+const TodoCard = ({ data }) => {
+  const { title, description, status } = data;
+
   return (
     <div className="card my-2">
       <div className="card-body text-md-start d-flex justify-content-between align-items-center">
@@ -23,7 +25,7 @@ const TodoCard = ({ data: { title, description, status } }) => {
           <p className="fw-light m-0">{description}</p>
         </div>
 
-        <TodoCardAction status={status} />
+        <TodoCardAction data={data} />
       </div>
     </div>
   );
