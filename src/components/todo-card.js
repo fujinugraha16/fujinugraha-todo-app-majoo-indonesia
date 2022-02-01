@@ -4,7 +4,7 @@ import React from "react";
 import TodoCardAction from "./todo-card-action";
 
 const TodoCard = ({ data }) => {
-  const { title, description, status } = data;
+  const { title, description, status, createdAt } = data;
 
   return (
     <div className="card my-2">
@@ -23,6 +23,13 @@ const TodoCard = ({ data }) => {
 
           {/* description */}
           <p className="fw-light m-0">{description}</p>
+
+          {/* createdAt */}
+          <div className="mt-2">
+            <small className="text-black-50">
+              <strong>createdAt:</strong> {createdAt}
+            </small>
+          </div>
         </div>
 
         <TodoCardAction data={data} />
