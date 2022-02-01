@@ -1,46 +1,66 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 
-const TodoCardAction = ({ status }) => (
-  <div className="d-flex">
-    {/* update status button */}
-    {status === 0 ? (
-      <i
-        className="bi bi-check-lg text-success"
-        style={{ fontSize: 14, cursor: "pointer" }}
-        data-bs-toggle="tooltip"
-        data-bs-placement="bottom"
-        title="is done?"
-      ></i>
-    ) : (
-      <i
-        className="bi bi-x-lg text-danger"
-        style={{ fontSize: 14, cursor: "pointer" }}
-        data-bs-toggle="tooltip"
-        data-bs-placement="bottom"
-        title="is not done?"
-      ></i>
-    )}
+// actions
+import { updateTodoDocStatus, removeTodoDoc } from "../store/action/todo";
 
-    {/* update button */}
-    <i
-      className="bi bi-pencil-fill text-primary"
-      style={{ fontSize: 14, marginLeft: 15, cursor: "pointer" }}
-      data-bs-toggle="tooltip"
-      data-bs-placement="bottom"
-      title="edit"
-    ></i>
+const TodoCardAction = ({ data }) => {
+  const { id, status } = data;
+  const dispatch = useDispatch();
 
-    {/* remove button */}
-    {status === 0 && (
+  const handleUpdateStatusButton = (updateStatus) => {
+    dispatch(updateTodoDocStatus(id, updateStatus));
+  };
+
+  const handleRemoveButton = () => {
+    dispatch(removeTodoDoc(id));
+  };
+
+  return (
+    <div className="d-flex">
+      {/* update status button */}
+      {status === 0 ? (
+        <i
+          className="bi bi-check-lg text-success"
+          style={{ fontSize: 14, cursor: "pointer" }}
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          title="is done?"
+          onClick={() => handleUpdateStatusButton(status + 1)}
+        ></i>
+      ) : (
+        <i
+          className="bi bi-x-lg text-danger"
+          style={{ fontSize: 14, cursor: "pointer" }}
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          title="is not done?"
+          onClick={() => handleUpdateStatusButton(status - 1)}
+        ></i>
+      )}
+
+      {/* update button */}
       <i
-        className="bi bi-trash3 text-danger"
+        className="bi bi-pencil-fill text-primary"
         style={{ fontSize: 14, marginLeft: 15, cursor: "pointer" }}
         data-bs-toggle="tooltip"
         data-bs-placement="bottom"
-        title="remove"
+        title="edit"
       ></i>
-    )}
-  </div>
-);
+
+      {/* remove button */}
+      {status === 0 && (
+        <i
+          className="bi bi-trash3 text-danger"
+          style={{ fontSize: 14, marginLeft: 15, cursor: "pointer" }}
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          title="remove"
+          onClick={handleRemoveButton}
+        ></i>
+      )}
+    </div>
+  );
+};
 
 export default TodoCardAction;
