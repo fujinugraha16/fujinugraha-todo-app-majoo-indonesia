@@ -3,6 +3,7 @@ import {
   SET_TODO_DOCS,
   ADD_TODO_DOC,
   UPDATE_TODO_DOC,
+  UPDATE_TODO_DOC_STATUS,
   REMOVE_TODO_DOC,
 } from "../../constants/action-types";
 
@@ -34,8 +35,18 @@ const reducer = (state = initialState, action) => {
       });
 
       return updateObject(state, { docs: updatedDocs });
+    case UPDATE_TODO_DOC_STATUS:
+      updatedDocs = state.docs.map((doc) => {
+        if (doc.id === action.id) {
+          doc.status = action.status;
+        }
+
+        return doc;
+      });
+
+      return updateObject(state, { docs: updatedDocs });
     case REMOVE_TODO_DOC:
-      updatedDocs = state.docs.filter((doc) => doc.id === action.id);
+      updatedDocs = state.docs.filter((doc) => doc.id !== action.id);
 
       return updateObject(state, { docs: updatedDocs });
     default:

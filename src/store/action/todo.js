@@ -5,6 +5,7 @@ import {
   SET_TODO_DOCS,
   ADD_TODO_DOC,
   UPDATE_TODO_DOC,
+  UPDATE_TODO_DOC_STATUS,
   REMOVE_TODO_DOC,
 } from "../../constants/action-types";
 
@@ -21,6 +22,12 @@ export const addTodoDoc = (todoDoc) => ({
 export const updateTodoDoc = (todoDoc) => ({
   type: UPDATE_TODO_DOC,
   todoDoc,
+});
+
+export const updateTodoDocStatus = (id, status) => ({
+  type: UPDATE_TODO_DOC_STATUS,
+  id,
+  status,
 });
 
 export const removeTodoDoc = (id) => ({
