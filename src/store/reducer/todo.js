@@ -14,7 +14,7 @@ import updateObject from "../../helpers/update-object";
 
 const initialState = {
   docs: [],
-  doc: [],
+  doc: null,
   openFormDialog: false,
 };
 
@@ -25,7 +25,7 @@ const reducer = (state = initialState, action) => {
     case SET_TODO_DOCS:
       return updateObject(state, { docs: action.todoDocs });
     case ADD_TODO_DOC:
-      return updateObject(state, { docs: [...state.docs, action.todoDoc] });
+      return updateObject(state, { docs: [action.todoDoc, ...state.docs] });
     case UPDATE_TODO_DOC:
       const { id, title, description } = action.todoDoc;
 

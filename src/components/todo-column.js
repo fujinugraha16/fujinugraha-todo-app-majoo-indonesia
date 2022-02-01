@@ -41,9 +41,8 @@ const TodoColumn = ({ title }) => {
       </div>
 
       <FormDialog
-        title={todoDoc ? "Update Todo" : "Add Todo"}
+        title={Boolean(todoDoc) ? "Update Todo" : "Add Todo"}
         open={openFormDialog}
-        formData={todoDoc}
       />
     </Fragment>
   );

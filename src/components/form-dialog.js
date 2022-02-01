@@ -33,8 +33,10 @@ const validationSchema = yup.object({
   description: yup.string().required("*Must be filled"),
 });
 
-const FormDialog = ({ title, open, formData }) => {
+const FormDialog = ({ title, open }) => {
   const dispatch = useDispatch();
+
+  const { doc: todoDoc } = useSelector(({ todo }) => todo);
 
   const formik = useFormik({
     initialValues: {
@@ -43,10 +45,17 @@ const FormDialog = ({ title, open, formData }) => {
     },
     validationSchema,
     onSubmit: (values) => {
-      //   console.log(values);
+      if (Boolean(todoDoc)) {
+        // UPDATE TODO
+        const data = {
+          id: todoDoc.id,
+          title: values.title,
+          description: values.description,
+        };
 
-      // ADD TODO
-      if (!formData) {
+        dispatch(updateTodoDoc(data));
+      } else {
+        // ADD TODO
         const data = {
           id: generateRandomString(5),
           title: values.title,
@@ -56,17 +65,6 @@ const FormDialog = ({ title, open, formData }) => {
         };
 
         dispatch(addTodoDoc(data));
-      }
-
-      // EDIT TODO
-      if (formData) {
-        const data = {
-          id: formData.id,
-          title: values.title,
-          description: values.description,
-        };
-
-        dispatch(updateTodoDoc(data));
       }
 
       handleCloseButton();
@@ -81,11 +79,11 @@ const FormDialog = ({ title, open, formData }) => {
   };
 
   useEffect(() => {
-    if (formData) {
-      formik.setFieldValue("title", formData.title);
-      formik.setFieldValue("description", formData.description);
+    if (todoDoc) {
+      formik.setFieldValue("title", todoDoc.title);
+      formik.setFieldValue("description", todoDoc.description);
     }
-  }, [formData]);
+  }, [todoDoc]);
 
   return (
     <Modal backdrop={true} toggle={handleCloseButton} isOpen={open}>
