@@ -8,7 +8,7 @@ const TodoCard = ({ data }) => {
 
   return (
     <div className="card my-2">
-      <div className="card-body text-md-start d-flex justify-content-between align-items-center">
+      <div className="card-body text-start d-flex justify-content-between align-items-center">
         <div>
           {/* title */}
           <p
