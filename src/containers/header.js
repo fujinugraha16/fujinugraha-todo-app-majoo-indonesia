@@ -5,9 +5,7 @@ const Header = () => (
     className="d-flex justify-content-center align-items-center bg-dark py-6"
     style={{ width: "100%", height: "42px" }}
   >
-    <h4 className="text-light m-0 p-0">
-      Todo App &nbsp; <i className="bi bi-list-task text-light"></i>
-    </h4>
+    <h4 className="text-light m-0 p-0">Todo App</h4>
   </div>
 );
 
